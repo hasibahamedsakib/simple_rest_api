@@ -2,7 +2,7 @@
 
 Welcome to the Simple REST API documentation. This API provides CRUD operations for managing user data.
 
-Base URL: `https://simple-rest-api.vercel.app/api/user`
+Base URL: `https://simple-rest-api.vercel.app/api/users`
 
 ## Endpoints
 
@@ -28,7 +28,7 @@ Status Code: 200 OK
 
 Create a new user.
 
-URL: /api/user
+URL: /api/users
 Method: POST
 Request Body:
 {
@@ -40,7 +40,7 @@ Request Body:
 
 Update an existing user by email.
 
-URL: /api/user/:email
+URL: /api/users/:email
 
 Method: PATCH
 
@@ -57,7 +57,7 @@ Request Body:
 Delete User
 Delete a user by email.
 
-URL: /api/user/:email
+URL: /api/users/:email
 
 Method: DELETE
 
