@@ -47,6 +47,9 @@ const getAllTodos = async (req, res) => {
     if (req.query.priority) {
       query.priority = req.query.priority;
     }
+    if (req.query.status) {
+      query.status = req.query.status;
+    }
     const allTodos = await Todo.find(query);
     res.status(200).json({
       message: "All Todos fetched successfully",

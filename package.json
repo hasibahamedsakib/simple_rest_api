@@ -1,10 +1,10 @@
 {
-  "name": "rest_api_with_mvc_pattren",
+  "name": "rest_api_with_mvc_patten",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
