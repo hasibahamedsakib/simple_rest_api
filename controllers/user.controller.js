@@ -1,3 +1,5 @@
+// importing uuid package
+const { v4: uuidv4 } = require("uuid");
 // import user schema
 const User = require("../models/user.model");
 
