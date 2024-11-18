@@ -5,28 +5,25 @@ const todoScheme = mongoose.Schema({
     type: String,
     require: true,
   },
-  title: {
-    type: String,
-    require: true,
-  },
-  description: {
+  name: {
     type: String,
     require: true,
   },
   priority: {
     type: String,
+    enum: ["high", "medium", "low"],
     require: true,
   },
-  isCompleted: {
-    type: Boolean,
-    require: true,
-    default: false,
+  status: {
+    type: String,
+    enum: ["pending", "completed"],
+    default: "pending",
   },
   isDeleted: {
     type: Boolean,
     default: false,
   },
-  createdOn: {
+  creationDate: {
     type: Date,
     default: Date.now,
   },

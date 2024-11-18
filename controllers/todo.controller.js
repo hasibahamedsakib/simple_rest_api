@@ -6,31 +6,35 @@ const createTodo = async (req, res) => {
   const todoId = Math.random().toString().substring(2, 12);
 
   try {
-    const { title, description, priority, isCompleted } = req.body;
-    if (!title && !description && !priority && !isCompleted) {
+    const { name, priority, status, creationDate } = req.body;
+    if (!name && !priority && !status) {
       return res.status(400).json({
-        message:
-          "You Must Provide title, description, priority and isCompleted filed",
+        message: "You Must Provide name, priority and status filed",
       });
     }
-    const existingTodo = await Todo.findOne({ title: req.body.title });
+    const existingTodo = await Todo.findOne({
+      name: req.body.name,
+    }).sort({ creationDate: -1 });
 
-    if (existingTodo) {
-      return res.status(400).send({
-        message: "todo are already created",
+    if (existingTodo && existingTodo?.status === "pending") {
+      return res.status(400).json({
+        message: "Same todo are already on your que list",
       });
     }
 
     const newTodo = {
       todoId,
-      title,
-      description,
+      name,
       priority,
-      isCompleted,
+      status,
+      creationDate,
     };
 
     const result = await Todo.create(newTodo);
-    res.status(201).json(result);
+    res.status(201).json({
+      message: "Todo created successfully",
+      result,
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -44,7 +48,10 @@ const getAllTodos = async (req, res) => {
       query.priority = req.query.priority;
     }
     const allTodos = await Todo.find(query);
-    res.status(200).json(allTodos);
+    res.status(200).json({
+      message: "All Todos fetched successfully",
+      result: allTodos,
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -55,9 +62,14 @@ const getSingleTodo = async (req, res) => {
   try {
     const todo = await Todo.findOne({ todoId: req.params.todoId });
     if (todo) {
-      res.status(200).json(todo);
+      res.status(200).json({
+        message: "Todo fetched successfully",
+        result: todo,
+      });
     } else {
-      res.status(200).json({ message: "Todo not found for this Id" });
+      res.status(200).json({
+        message: "Todo not found for this Id",
+      });
     }
   } catch (error) {
     res.status(500).send(error.message);
@@ -67,22 +79,22 @@ const getSingleTodo = async (req, res) => {
 // update existing todo by id
 const updateTodo = async (req, res) => {
   try {
-    const { title, description, priority, isCompleted } = req.body;
+    const { name, priority, status } = req.body;
     const todo = await Todo.findOne({ todoId: req.params.todoId });
-    if (title) {
-      todo.title = title;
-    }
-    if (description) {
-      todo.description = description;
+    if (name) {
+      todo.name = name;
     }
     if (priority) {
       todo.priority = priority;
     }
-    if (isCompleted) {
-      todo.isCompleted = isCompleted;
+    if (status) {
+      todo.status = status;
     }
     await todo.save();
-    res.status(200).json(todo);
+    res.status(200).json({
+      message: "Todo updated successfully",
+      result: todo,
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -95,11 +107,13 @@ const deleteTodo = async (req, res) => {
       todoId: req.params.todoId,
     });
     if (!deleteTodo) {
-      return res
-        .status(400)
-        .send({ message: "todo not found.Cannot delete non-existing todo." });
+      return res.status(400).send({
+        message: "Todo not found. Cannot delete non-existing todo.",
+      });
     } else {
-      res.status(200).json({ message: "todo deleted successful" });
+      res.status(200).json({
+        message: "Todo deleted successfully",
+      });
     }
   } catch (error) {
     res.status(500).send(error.message);
