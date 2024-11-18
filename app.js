@@ -9,12 +9,15 @@ const app = express();
 
 // import userRoute
 const userRoute = require("./routes/user.route");
+// import todoRoute
+const todoRoute = require("./routes/todo.route");
 
 //  using middleware
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/users/", userRoute);
+app.use("/api/todos/", todoRoute);
 
 // home Route
 app.get("/", (req, res) => {
